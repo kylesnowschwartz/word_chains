@@ -2,6 +2,8 @@ require_relative '../word_chain.rb'
 
 RSpec.describe WordChain do
   def number_of_different_characters(starting_word, target_word)
+    p "starting_word: #{starting_word}"
+    p "target_word: #{target_word}"
     starting_word.chars.zip(target_word.chars).count do |letter, target_letter|
       letter != target_letter
     end
@@ -14,6 +16,7 @@ RSpec.describe WordChain do
   CASES = [
     ["RAW", "ROW"],
     ["RAW", "TOW"],
+    # ["TURKEY", "CARROT"]
     ["RAW", "TOE"]
   ]
 
@@ -35,8 +38,6 @@ RSpec.describe WordChain do
 
       # TODO - make this it block more sensical
       it "differs from the previous word by a single letter" do
-        p subject
-
         subject.reduce do |previous_word, next_word|
           expect(number_of_different_characters(previous_word, next_word)).to eq 1
 

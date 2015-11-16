@@ -14,25 +14,25 @@ RSpec.describe WordChain do
   end
 
   CASES = [
-    ["RAW", "ROW"],
-    ["RAW", "TOW"],
+    ["RAW", "ROW"]
+    # ["RAW", "TOW"]
     # ["TURKEY", "CARROT"]
-    ["RAW", "TOE"]
+    # ["RAW", "TOE"]
   ]
 
   CASES.each do |starting_word, target_word|
     describe "#solve from #{starting_word} to #{target_word}" do
       subject { WordChain.new(starting_word, target_word, words).solve }
 
-      it "returns an array of words" do
+      xit "returns an array of words" do
         expect(subject).to be_an Array 
       end
 
-      it "starts with the starting_word" do
+      xit "starts with the starting_word" do
         expect(subject.first).to eq starting_word
       end
 
-      it "ends with the target_word" do
+      xit "ends with the target_word" do
         expect(subject.last).to eq target_word
       end
 
@@ -45,7 +45,7 @@ RSpec.describe WordChain do
         end
       end
 
-      it "only returns valid words" do
+      xit "only returns valid words" do
         subject.each do |word|
           expect(words).to include word
         end

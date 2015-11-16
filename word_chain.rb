@@ -6,6 +6,7 @@ class WordChain
     @target_word = target_word
     @word_list = word_list
     @words_visited = []
+    @backwards_words_visited = []
   end
 
   def solve
@@ -15,10 +16,10 @@ class WordChain
   private
 
   def bridge_words
-    return [] if difference_in_chars(@starting_word, @target_word) <= 1
+    # return [] if difference_in_chars(@starting_word, @target_word) <= 1
     
-    last_step_words = (minimal_pairs(@starting_word) & minimal_pairs(@target_word)).slice(1)   
-    return last_step_words if last_step_words
+    # last_step_words = (minimal_pairs(@starting_word) & minimal_pairs(@target_word)).slice(1)   
+    # return last_step_words if last_step_words
     
     # "raw row tow"
     find_bridge_words(@starting_word, @target_word)
@@ -42,16 +43,28 @@ class WordChain
     next_paths = []
     current_path = [current_word]
 
-    until current_word == target_word
+    backwards_next_paths = []
+    backwards_current_path = [target_word]
+
+    until current_path.last == backwards_current_path.last
       @words_visited << current_word
+      @backwards_words_visited << target_word
 
       next_paths += (minimal_pairs(current_word) - @words_visited).map { |minimal_pair| current_path + [minimal_pair] }
+      backwards_next_paths += (minimal_pairs(target_word) - @backwards_words_visited).map { |minimal_pair| backwards_current_path + [minimal_pair] }
+
+      backward_current_path = backwards_next_paths.shift
+      backward_current_word = backward_current_path.last
 
       current_path = next_paths.shift
       current_word = current_path.last
+
+      p "from the back: #{backward_current_path}"
+      p "from the front: #{current_path}"
     end
 
     p current_path
+    p backwards_current_path
   end
   
   def mark_visited(word)
@@ -59,9 +72,10 @@ class WordChain
   end
 end
 
-list = File.readlines(ARGV[2]).map(&:chomp)
+# list = File.readlines('words.txt').map(&:chomp)
 
-WordChain.new(ARGV[0].upcase, ARGV[1].upcase, list).solve
+# WordChain.new()
+# WordChain.new(ARGV[0].upcase, ARGV[1].upcase, list).solve
 
 
   

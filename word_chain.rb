@@ -17,8 +17,8 @@ class WordChain
   def bridge_words
     return [] if difference_in_chars(@starting_word, @target_word) <= 1
     
-    last_step_words = (minimal_pairs(@starting_word) & minimal_pairs(@target_word)).slice(1)   
-    return last_step_words if last_step_words
+    one_step_away_words = (minimal_pairs(@starting_word) & minimal_pairs(@target_word)).slice(1)   
+    return one_step_away_words if one_step_away_words
     
     # "raw row tow"
     find_bridge_words(@starting_word, @target_word)
@@ -59,9 +59,9 @@ class WordChain
   end
 end
 
-list = File.readlines(ARGV[2]).map(&:chomp)
+# list = File.readlines(ARGV[2]).map(&:chomp)
 
-WordChain.new(ARGV[0].upcase, ARGV[1].upcase, list).solve
+# WordChain.new(ARGV[0].upcase, ARGV[1].upcase, list).solve
 
 
   
